@@ -1,0 +1,40 @@
+{
+  "cameras": {
+    "CAM-01": {
+      "name": "North Perimeter Gate",
+      "source": 0,
+      "fps_target": 30,
+      "fence_points": [],
+      "boundary_mode": "OPEN_LINE",
+      "zone_orientation": "INWARD",
+      "enabled": true
+    },
+    "CAM-02": {
+      "name": "Sector 4 Perimeter Wire",
+      "source": "test_feeds/test_video.mp4",
+      "fps_target": 30,
+      "fence_points": [],
+      "boundary_mode": "OPEN_LINE",
+      "zone_orientation": "INWARD",
+      "enabled": true
+    },
+    "CAM-03": {
+      "name": "Buffer Zone Approach",
+      "source": "test_feeds/test_video.mp4",
+      "fps_target": 30,
+      "fence_points": [],
+      "boundary_mode": "OPEN_LINE",
+      "zone_orientation": "INWARD",
+      "enabled": true
+    },
+    "CAM-04": {
+      "name": "Vehicle Checkpoint & ANPR",
+      "source": "test_feeds/fence_climb.mp4",
+      "fps_target": 30,
+      "fence_points": [],
+      "boundary_mode": "OPEN_LINE",
+      "zone_orientation": "INWARD",
+      "enabled": true
+    }
+  }
+}
