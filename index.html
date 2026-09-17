@@ -12,6 +12,7 @@
   </style>
 </head>
 <body class="min-h-screen flex flex-col md:flex-row">
+  <!-- C2 Controls Sidebar -->
   <aside class="w-full md:w-80 sidebar p-4 flex flex-col space-y-4 text-sm">
     <div class="flex items-center space-x-2 font-bold text-base text-gray-200 border-b border-gray-700 pb-3">
       <span>🕹️</span>
@@ -24,18 +25,18 @@
         Acknowledge & Clear Alarms
       </button>
       <div class="grid grid-cols-2 gap-2">
-        <button onclick="alert('Siren Tested')" class="bg-[#21262d] text-xs py-1 px-2 rounded border border-gray-600 text-gray-300">📢 Test Siren</button>
-        <button onclick="alert('Silence Triggered')" class="bg-[#21262d] text-xs py-1 px-2 rounded border border-gray-600 text-gray-300">🔕 Silence</button>
+        <button onclick="alert('Audible Siren Pulse Sent via Relay')" class="bg-[#21262d] text-xs py-1 px-2 rounded border border-gray-600 text-gray-300">📢 Test Siren</button>
+        <button onclick="alert('Alarms Silenced for 5 minutes')" class="bg-[#21262d] text-xs py-1 px-2 rounded border border-gray-600 text-gray-300">🔕 Silence</button>
       </div>
     </div>
 
     <div class="space-y-2 border-t border-gray-800 pt-3">
       <div class="font-semibold text-xs text-gray-400">📶 Mesh Bandwidth Mode</div>
       <label class="flex items-center space-x-2 text-xs text-gray-300 cursor-pointer">
-        <input type="checkbox" id="bw-mode" onchange="toggleBw()" class="rounded bg-gray-800 border-gray-600">
+        <input type="checkbox" id="bw-toggle" onchange="toggleBw()" class="rounded bg-gray-800 border-gray-600">
         <span>⚡ 20 kbps Low-Bandwidth Mode</span>
       </label>
-      <div id="bw-lbl" class="bg-[#1b472e]/60 border border-[#2ea043]/50 text-[#3fb950] p-2 rounded text-[11px]">
+      <div id="bw-status" class="bg-[#1b472e]/60 border border-[#2ea043]/50 text-[#3fb950] p-2 rounded text-[11px]">
         Mode: BROADBAND TACTICAL C2 Full Resolution 30 FPS Streams Active
       </div>
     </div>
@@ -51,14 +52,14 @@
     <div class="space-y-2 border-t border-gray-800 pt-3">
       <div class="font-semibold text-xs text-gray-400">🛡️ IFF & Patrol Authorization</div>
       <button onclick="toggleIFF()" class="w-full bg-[#1f6feb] hover:bg-blue-600 text-white font-medium py-1 px-2 rounded text-xs">
-        🔄 Toggle Target #104 (Infiltrator ⇋ BSF Patrol)
+        🔄 Switch Target #104 (Infiltrator ⇋ BSF Patrol)
       </button>
     </div>
 
     <div class="space-y-2 border-t border-gray-800 pt-3">
       <div class="font-semibold text-xs text-gray-400">🎯 Tactical Threat Matrix</div>
       <div class="space-y-1.5 text-[11px]">
-        <div id="card-104" class="bg-[#21262d] p-1.5 rounded border-l-2 border-red-500 flex justify-between">
+        <div id="trk-104" class="bg-[#21262d] p-1.5 rounded border-l-2 border-red-500 flex justify-between">
           <span>#104 PERSON [SPRINT]</span><span class="text-red-400 font-bold">● HOSTILE</span>
         </div>
         <div class="bg-[#21262d] p-1.5 rounded border-l-2 border-red-500 flex justify-between">
@@ -71,6 +72,7 @@
     </div>
   </aside>
 
+  <!-- Operations Main Viewport -->
   <main class="flex-1 p-5 overflow-y-auto space-y-4">
     <div class="flex items-center space-x-2 border-b border-gray-800 pb-3">
       <span class="text-blue-500 text-2xl">🛡️</span>
@@ -80,11 +82,13 @@
       </div>
     </div>
 
+    <!-- DEFCON Alert Banner -->
     <div id="defcon-banner" class="bg-[#3b1219] border border-[#f85149]/60 text-[#ff7b72] p-3 rounded font-semibold text-xs flex items-center justify-between">
       <span>🚨 DEFCON 1: CRITICAL PERIMETER BREACH — 4 Hostile Target(s) Crossing Restricted Boundary</span>
       <span class="text-[11px] bg-red-950 px-2 py-0.5 rounded border border-red-700">LATCHED ACTIVE</span>
     </div>
 
+    <!-- KPI Metrics -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
       <div class="bg-[#161b22] border border-gray-800 p-3 rounded">
         <div class="text-gray-400 text-[11px]">Active Streams</div>
@@ -108,7 +112,9 @@
       </div>
     </div>
 
+    <!-- 4-Quadrant Video Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- CAM-01 -->
       <div class="feed-card p-2.5">
         <div class="flex justify-between items-center text-[11px] mb-1.5">
           <span class="font-bold text-gray-200">CAM-01: North Perimeter Gate</span>
@@ -122,6 +128,7 @@
         </div>
       </div>
 
+      <!-- CAM-02 -->
       <div class="feed-card p-2.5">
         <div class="flex justify-between items-center text-[11px] mb-1.5">
           <span class="font-bold text-gray-200">CAM-02: Sector 4 Perimeter Wire</span>
@@ -135,6 +142,7 @@
         </div>
       </div>
 
+      <!-- CAM-03 -->
       <div class="feed-card p-2.5">
         <div class="flex justify-between items-center text-[11px] mb-1.5">
           <span class="font-bold text-gray-200">CAM-03: Buffer Zone Approach</span>
@@ -148,6 +156,7 @@
         </div>
       </div>
 
+      <!-- CAM-04 -->
       <div class="feed-card p-2.5">
         <div class="flex justify-between items-center text-[11px] mb-1.5">
           <span class="font-bold text-gray-200">CAM-04: Vehicle Checkpoint & ANPR</span>
@@ -169,7 +178,7 @@
       friendly = !friendly;
       const b = document.getElementById('cam1-box');
       const t = document.getElementById('cam1-tag');
-      const c = document.getElementById('card-104');
+      const c = document.getElementById('trk-104');
       if (friendly) {
         b.className = 'w-32 h-44 border-2 border-cyan-400 rounded p-1 flex flex-col justify-between';
         t.className = 'bg-cyan-500 text-black text-[9px] px-1 font-bold';
@@ -185,9 +194,9 @@
       }
     }
     function toggleBw() {
-      const on = document.getElementById('bw-mode').checked;
-      const lbl = document.getElementById('bw-lbl');
-      lbl.innerText = on ? 'Mode: MESH RESILIENT 20 kbps JSON Telemetry Active' : 'Mode: BROADBAND TACTICAL C2 Full Resolution 30 FPS Streams Active';
+      const on = document.getElementById('bw-toggle').checked;
+      const status = document.getElementById('bw-status');
+      status.innerText = on ? 'Mode: MESH RESILIENT 20 kbps JSON Telemetry Active' : 'Mode: BROADBAND TACTICAL C2 Full Resolution 30 FPS Streams Active';
     }
   </script>
 </body>
