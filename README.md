@@ -37,7 +37,7 @@ Experience the live simulation interface deployed via GitHub Pages:
 
 ## 🎯 Complete System Architecture
 
-~~~mermaid
+```mermaid
 flowchart TB
     subgraph Edge_Sensors [Remote Edge Sensor Array]
         ThermalCam[Thermal IR Camera / RTSP] --> Ingress[Dual-Stream Buffer & Ring Queue]
@@ -57,7 +57,7 @@ flowchart TB
         ReID --> Kalman[8-State Kalman Velocity Filter]
         Kalman --> Hungarian[Hungarian Data Association Matrix]
         Hungarian --> GeofenceEngine{Ray-Casting Polygon Breach?}
-        GeofenceEngine -->|Wildlife / Noise| Suppress[False-Positive Filter (<0.4%)]
+        GeofenceEngine -->|Wildlife or Noise| Suppress[False-Positive Suppressor Filter]
         GeofenceEngine -->|Hostile Breach| ThreatScore[Threat Scoring & Vector Calc]
     end
 
@@ -76,7 +76,7 @@ flowchart TB
     class Preprocessing,YOLOv8,BoundingBox,ReID neural;
     class Kalman,Hungarian,GeofenceEngine,Suppress,ThreatScore spatial;
     class Encrypt,MQTT,LocalRelay,BaseCommand dispatch;
-~~~
+```
 
 ---
 
@@ -87,22 +87,6 @@ flowchart TB
 | **Ultra-Edge (Solar/Pole)** | NVIDIA Jetson Orin Nano (8GB) | YOLOv8n (FP16 TensorRT) | **34.2 FPS** | 7W – 15W | -25°C to +65°C |
 | **Bunker / Base Outpost** | NVIDIA Jetson AGX Orin (64GB) | YOLOv8x + Multi-Camera (8 streams) | **120+ FPS total** | 30W – 60W | MIL-STD-810H |
 | **Tactical Rapid Deployment** | Raspberry Pi 5 + Hailo-8 NPU | YOLOv8s (INT8 Quantized) | **28.0 FPS** | 12W total | Field-swappable battery |
-
----
-
-## 🔬 Mathematical Formulations & Tracking Guarantees
-
-### 1. Kalman Filter State Representation
-The kinematic state of tracked intruders is represented as an 8-dimensional state vector:
-$$\\mathbf{x} = [u, v, \\gamma, h, \\dot{u}, \\dot{v}, \\dot{\\gamma}, \\dot{h}]^T$$
-- $(u, v)$: 2D center coordinates of the bounding box
-- $\\gamma$: Aspect ratio ($width / height$)
-- $h$: Bounding box height
-- $(\\dot{u}, \\dot{v}, \\dot{\\gamma}, \\dot{h})$: Instantaneous kinematic velocities in image coordinate space
-
-### 2. Ray-Casting Polygon Geofencing
-Given an arbitrary polygonal boundary $P$ defined by vertices $V_1, V_2, \\dots, V_n$ and target centroid $(x, y)$, penetration determination uses non-zero winding intersection checks:
-$$I = \\sum_{i=1}^{n} \\text{intersect}\\big((x, y), V_i, V_{i+1}\\big) \\pmod 2 \\neq 0$$
 
 ---
 
