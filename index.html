@@ -9,137 +9,82 @@
     body { background-color: #0e1117; color: #fafafa; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     .sidebar { background-color: #161b22; border-right: 1px solid #30363d; }
     .feed-card { background-color: #1a1f29; border: 1px solid #30363d; border-radius: 6px; }
-    .radar-bg { background-color: #0f141c; border: 1px solid #233549; }
-    .scan-line { animation: sweep 4s linear infinite; transform-origin: center; }
-    @keyframes sweep { from { transform: rotate(0deg); } to { rotate: 360deg); } }
   </style>
 </head>
 <body class="min-h-screen flex flex-col md:flex-row">
-  <!-- SIDEBAR: C2 TACTICAL CONTROLS -->
-  <aside class="w-full md:w-80 sidebar p-4 flex flex-col space-y-5 text-sm">
+  <aside class="w-full md:w-80 sidebar p-4 flex flex-col space-y-4 text-sm">
     <div class="flex items-center space-x-2 font-bold text-base text-gray-200 border-b border-gray-700 pb-3">
       <span>🕹️</span>
       <span>C2 Tactical Controls</span>
     </div>
 
-    <!-- Alarm Management -->
     <div class="space-y-2">
-      <div class="font-semibold text-xs text-gray-400 flex items-center gap-1.5">
-        <span>🚨</span>
-        <span>Alarm Management</span>
-      </div>
-      <button id="ack-btn" onclick="toggleAlarm()" class="w-full bg-[#f85149] hover:bg-red-600 text-white font-semibold py-1.5 px-3 rounded text-xs transition">
+      <div class="font-semibold text-xs text-gray-400">🚨 Alarm Management</div>
+      <button onclick="document.getElementById('defcon-banner').style.display='none'" class="w-full bg-[#f85149] hover:bg-red-600 text-white font-semibold py-1.5 px-3 rounded text-xs transition">
         Acknowledge & Clear Alarms
       </button>
       <div class="grid grid-cols-2 gap-2">
-        <button onclick="alert('Audible Siren Pulse Sent via Relay Pin 12')" class="bg-[#21262d] hover:bg-gray-700 text-xs py-1 px-2 rounded border border-gray-600 text-gray-300">
-          📢 Test Siren
-        </button>
-        <button onclick="alert('Alarms Silenced for 5 minutes')" class="bg-[#21262d] hover:bg-gray-700 text-xs py-1 px-2 rounded border border-gray-600 text-gray-300">
-          🔕 Silence
-        </button>
+        <button onclick="alert('Siren Tested')" class="bg-[#21262d] text-xs py-1 px-2 rounded border border-gray-600 text-gray-300">📢 Test Siren</button>
+        <button onclick="alert('Silence Triggered')" class="bg-[#21262d] text-xs py-1 px-2 rounded border border-gray-600 text-gray-300">🔕 Silence</button>
       </div>
     </div>
 
-    <!-- Mesh Bandwidth Mode -->
     <div class="space-y-2 border-t border-gray-800 pt-3">
-      <div class="font-semibold text-xs text-gray-400 flex items-center gap-1.5">
-        <span>📶</span>
-        <span>Mesh Bandwidth Mode</span>
-      </div>
+      <div class="font-semibold text-xs text-gray-400">📶 Mesh Bandwidth Mode</div>
       <label class="flex items-center space-x-2 text-xs text-gray-300 cursor-pointer">
-        <input type="checkbox" id="bandwidth-toggle" onchange="toggleBandwidth()" class="rounded bg-gray-800 border-gray-600">
+        <input type="checkbox" id="bw-mode" onchange="toggleBw()" class="rounded bg-gray-800 border-gray-600">
         <span>⚡ 20 kbps Low-Bandwidth Mode</span>
       </label>
-      <div id="bandwidth-status" class="bg-[#1b472e]/60 border border-[#2ea043]/50 text-[#3fb950] p-2 rounded text-[11px]">
-        📶 Mode: BROADBAND TACTICAL C2 Full Resolution 30 FPS Streams Active
+      <div id="bw-lbl" class="bg-[#1b472e]/60 border border-[#2ea043]/50 text-[#3fb950] p-2 rounded text-[11px]">
+        Mode: BROADBAND TACTICAL C2 Full Resolution 30 FPS Streams Active
       </div>
     </div>
 
-    <!-- Acoustic Anomaly Trigger -->
     <div class="space-y-2 border-t border-gray-800 pt-3">
-      <div class="font-semibold text-xs text-gray-400 flex items-center gap-1.5">
-        <span>🔊</span>
-        <span>Acoustic Anomaly Trigger</span>
-      </div>
+      <div class="font-semibold text-xs text-gray-400">🔊 Acoustic Anomaly Trigger</div>
       <div class="grid grid-cols-2 gap-2">
-        <button onclick="triggerAcoustic('Gunshot')" class="bg-[#21262d] hover:bg-gray-700 text-xs py-1 px-2 rounded border border-gray-600 text-red-400">
-          🔴 Gunshot
-        </button>
-        <button onclick="triggerAcoustic('Heavy Diesel Engine')" class="bg-[#21262d] hover:bg-gray-700 text-xs py-1 px-2 rounded border border-gray-600 text-emerald-400">
-          🚛 Engine
-        </button>
+        <button onclick="alert('Gunshot Acoustic Signature Latched!')" class="bg-[#21262d] text-xs py-1 px-2 rounded border border-gray-600 text-red-400">🔴 Gunshot</button>
+        <button onclick="alert('Heavy Diesel Engine Signature Latched!')" class="bg-[#21262d] text-xs py-1 px-2 rounded border border-gray-600 text-emerald-400">🚛 Engine</button>
       </div>
     </div>
 
-    <!-- Tactical Optical Filter -->
     <div class="space-y-2 border-t border-gray-800 pt-3">
-      <div class="font-semibold text-xs text-gray-400 flex items-center gap-1.5">
-        <span>🌙</span>
-        <span>Tactical Optical Filter</span>
-      </div>
-      <label class="flex items-center space-x-2 text-xs text-gray-300 cursor-pointer">
-        <input type="checkbox" id="clahe-toggle" onchange="toggleClahe()" class="rounded bg-gray-800 border-gray-600">
-        <span>Enable Tactical Adverse Weather / Night CLAHE Filter</span>
-      </label>
-    </div>
-
-    <!-- IFF & Patrol Authorization -->
-    <div class="space-y-2 border-t border-gray-800 pt-3">
-      <div class="font-semibold text-xs text-gray-400 flex items-center gap-1.5">
-        <span>🛡️</span>
-        <span>IFF & Patrol Authorization</span>
-      </div>
-      <div class="text-[11px] text-gray-400">Enrolled Friendly Whitelist: <span id="whitelist-count" class="text-emerald-400 font-bold">1 Signature</span></div>
-      <div class="text-[11px] text-gray-400">Patrol Window Status: <span class="text-yellow-400 font-semibold">STANDBY (Full Enforcement)</span></div>
+      <div class="font-semibold text-xs text-gray-400">🛡️ IFF & Patrol Authorization</div>
       <button onclick="toggleIFF()" class="w-full bg-[#1f6feb] hover:bg-blue-600 text-white font-medium py-1 px-2 rounded text-xs">
-        🔄 Switch Target #104 (Infiltrator ⇋ BSF Patrol)
+        🔄 Toggle Target #104 (Infiltrator ⇋ BSF Patrol)
       </button>
     </div>
 
-    <!-- Live Threat Matrix -->
-    <div class="space-y-2 border-t border-gray-800 pt-3 flex-grow">
+    <div class="space-y-2 border-t border-gray-800 pt-3">
       <div class="font-semibold text-xs text-gray-400">🎯 Tactical Threat Matrix</div>
       <div class="space-y-1.5 text-[11px]">
-        <div id="target-104-card" class="bg-[#21262d] p-1.5 rounded border-l-2 border-red-500 flex justify-between">
-          <span>#104 PERSON [SPRINT]</span>
-          <span class="text-red-400 font-bold">● HOSTILE</span>
+        <div id="card-104" class="bg-[#21262d] p-1.5 rounded border-l-2 border-red-500 flex justify-between">
+          <span>#104 PERSON [SPRINT]</span><span class="text-red-400 font-bold">● HOSTILE</span>
         </div>
         <div class="bg-[#21262d] p-1.5 rounded border-l-2 border-red-500 flex justify-between">
-          <span>#110 TRUCK [IN MOTION]</span>
-          <span class="text-red-400 font-bold">● HOSTILE</span>
+          <span>#110 TRUCK [IN MOTION]</span><span class="text-red-400 font-bold">● HOSTILE</span>
         </div>
         <div class="bg-[#21262d] p-1.5 rounded border-l-2 border-red-500 flex justify-between">
-          <span>#141 CAR [IN MOTION]</span>
-          <span class="text-red-400 font-bold">● HOSTILE</span>
+          <span>#141 CAR [IN MOTION]</span><span class="text-red-400 font-bold">● HOSTILE</span>
         </div>
       </div>
     </div>
   </aside>
 
-  <!-- MAIN OPERATIONAL CENTER -->
-  <main class="flex-1 p-5 overflow-y-auto space-y-5">
-    <!-- Header Banner -->
-    <div class="flex items-center justify-between border-b border-gray-800 pb-3">
+  <main class="flex-1 p-5 overflow-y-auto space-y-4">
+    <div class="flex items-center space-x-2 border-b border-gray-800 pb-3">
+      <span class="text-blue-500 text-2xl">🛡️</span>
       <div>
-        <div class="flex items-center space-x-2">
-          <span class="text-blue-500 text-2xl">🛡️</span>
-          <h1 class="text-2xl font-bold tracking-wide">IBVAP V2 — Tactical Command & Control (C2) Center</h1>
-        </div>
-        <p class="text-xs text-gray-400 mt-1">30+ FPS Real-Time Streaming | Decoupled Sector Radars | Evidence Lifecycle Controls | 20 kbps Mesh Telemetry</p>
+        <h1 class="text-2xl font-bold tracking-wide">IBVAP V2 — Tactical Command & Control (C2) Center</h1>
+        <p class="text-xs text-gray-400">30+ FPS Real-Time Streaming | Decoupled Sector Radars | Evidence Lifecycle Controls | 20 kbps Mesh Telemetry</p>
       </div>
     </div>
 
-    <!-- DEFCON Alert Banner -->
     <div id="defcon-banner" class="bg-[#3b1219] border border-[#f85149]/60 text-[#ff7b72] p-3 rounded font-semibold text-xs flex items-center justify-between">
-      <div class="flex items-center space-x-2">
-        <span class="animate-pulse text-base">🚨</span>
-        <span>DEFCON 1: CRITICAL PERIMETER BREACH — 4 Hostile Target(s) Crossing Restricted Boundary</span>
-      </div>
+      <span>🚨 DEFCON 1: CRITICAL PERIMETER BREACH — 4 Hostile Target(s) Crossing Restricted Boundary</span>
       <span class="text-[11px] bg-red-950 px-2 py-0.5 rounded border border-red-700">LATCHED ACTIVE</span>
     </div>
 
-    <!-- Top KPI Metric Cards -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
       <div class="bg-[#161b22] border border-gray-800 p-3 rounded">
         <div class="text-gray-400 text-[11px]">Active Streams</div>
@@ -148,7 +93,7 @@
       </div>
       <div class="bg-[#161b22] border border-gray-800 p-3 rounded">
         <div class="text-gray-400 text-[11px]">Tracked Targets</div>
-        <div class="text-xl font-bold text-white mt-1" id="kpi-targets">4</div>
+        <div class="text-xl font-bold text-white mt-1">4</div>
         <div class="text-red-400 text-[10px] mt-0.5">↑ 0 Latched Alarms</div>
       </div>
       <div class="bg-[#161b22] border border-gray-800 p-3 rounded">
@@ -163,160 +108,55 @@
       </div>
     </div>
 
-    <!-- Tab Strip -->
-    <div class="flex flex-wrap gap-2 text-xs border-b border-gray-800 pb-2">
-      <button onclick="switchTab('feeds')" id="tab-feeds" class="bg-[#21262d] text-white px-3 py-1 rounded font-semibold">
-        📺 4-Quadrant Tactical Grid
-      </button>
-      <button onclick="switchTab('radars')" id="tab-radars" class="text-gray-400 hover:text-white px-3 py-1 rounded">
-        🧭 Decoupled Sector Radars & PTZ
-      </button>
-      <button onclick="switchTab('gallery')" id="tab-gallery" class="text-gray-400 hover:text-white px-3 py-1 rounded">
-        📸 Evidence Gallery & Audit Logs
-      </button>
-    </div>
-
-    <!-- SECTION 1: 4-QUADRANT TACTICAL VIDEO FEEDS -->
-    <div id="section-feeds" class="space-y-4">
-      <div class="text-xs text-gray-400">Decoupled asynchronous streaming at 30+ FPS. Live boundary lines, vector normal arrows, and tracking HUD tags rendered in real time.</div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <!-- CAM-01: North Perimeter Gate -->
-        <div class="feed-card p-2.5">
-          <div class="flex justify-between items-center text-[11px] mb-1.5">
-            <span class="font-bold text-gray-200">CAM-01: North Perimeter Gate</span>
-            <span class="text-emerald-400">● INTEGRITY: NOMINAL</span>
-          </div>
-          <div class="relative bg-black rounded h-56 flex items-center justify-center overflow-hidden border border-gray-800" id="cam1-box">
-            <!-- Simulated Camera Feed with bounding box & trajectory arrow -->
-            <div class="absolute inset-0 flex items-center justify-center opacity-70">
-              <div class="w-36 h-48 bg-slate-800 rounded-lg border border-slate-700 flex flex-col items-center justify-center text-gray-400 text-xs">
-                <span>[CAM-01 FEED]</span>
-                <span class="text-[10px] mt-1 text-slate-500">Subject in View</span>
-              </div>
-            </div>
-            <!-- Dynamic Bounding Box -->
-            <div id="cam1-bbox" class="absolute w-32 h-44 border-2 border-red-500 rounded flex flex-col justify-between p-1 shadow-lg">
-              <span id="cam1-tag" class="bg-red-600 text-white text-[9px] px-1 py-0.5 font-bold uppercase rounded-sm">
-                #104 PERSON [SPRINT] [243.3 km/h] [100%]
-              </span>
-              <!-- Vector Trajectory Arrow -->
-              <div class="w-full flex justify-center">
-                <span class="text-yellow-400 text-xl font-bold animate-bounce">↓</span>
-              </div>
-            </div>
-          </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="feed-card p-2.5">
+        <div class="flex justify-between items-center text-[11px] mb-1.5">
+          <span class="font-bold text-gray-200">CAM-01: North Perimeter Gate</span>
+          <span class="text-emerald-400">● INTEGRITY: NOMINAL</span>
         </div>
-
-        <!-- CAM-02: Sector 4 Perimeter Wire -->
-        <div class="feed-card p-2.5">
-          <div class="flex justify-between items-center text-[11px] mb-1.5">
-            <span class="font-bold text-gray-200">CAM-02: Sector 4 Perimeter Wire</span>
-            <span class="text-emerald-400">● INTEGRITY: NOMINAL</span>
-          </div>
-          <div class="relative bg-black rounded h-56 flex items-center justify-center overflow-hidden border border-gray-800">
-            <div class="absolute inset-0 flex items-center justify-around opacity-60 px-4">
-              <div class="w-28 h-36 bg-stone-900 border border-stone-700 rounded p-1 text-[10px] text-gray-400 flex flex-col justify-end">
-                <span>Terrain Obstacle</span>
-              </div>
-              <div class="w-36 h-36 bg-stone-900 border border-stone-700 rounded p-1 text-[10px] text-gray-400 flex flex-col justify-end">
-                <span>Cargo Vehicle</span>
-              </div>
-            </div>
-            <div class="absolute right-4 w-36 h-36 border-2 border-red-500 rounded p-1">
-              <span class="bg-red-600 text-white text-[9px] px-1 font-bold">#110 TRUCK [IN MOTION]</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- CAM-03: Buffer Zone Approach -->
-        <div class="feed-card p-2.5">
-          <div class="flex justify-between items-center text-[11px] mb-1.5">
-            <span class="font-bold text-gray-200">CAM-03: Buffer Zone Approach</span>
-            <span class="text-emerald-400">● INTEGRITY: NOMINAL</span>
-          </div>
-          <div class="relative bg-black rounded h-56 flex items-center justify-center overflow-hidden border border-gray-800">
-            <div class="w-44 h-40 border-2 border-red-500 rounded p-1">
-              <span class="bg-red-600 text-white text-[9px] px-1 font-bold">#147 TRUCK [IN MOTION]</span>
-              <div class="text-yellow-400 text-xs mt-10">Vector: 353.0 km/h</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- CAM-04: Vehicle Checkpoint & ANPR -->
-        <div class="feed-card p-2.5">
-          <div class="flex justify-between items-center text-[11px] mb-1.5">
-            <span class="font-bold text-gray-200">CAM-04: Vehicle Checkpoint & ANPR</span>
-            <span class="text-emerald-400">● INTEGRITY: NOMINAL</span>
-          </div>
-          <div class="relative bg-black rounded h-56 flex items-center justify-center overflow-hidden border border-gray-800">
-            <div class="w-36 h-48 border-2 border-red-500 rounded p-1 flex flex-col justify-between">
-              <span class="bg-red-600 text-white text-[9px] px-1 font-bold">#101 PERSON [RUNNING] [71%]</span>
-              <div class="text-yellow-400 font-bold text-sm">➔ VECTOR A-2</div>
-            </div>
+        <div class="relative bg-slate-900 rounded h-56 flex items-center justify-center overflow-hidden border border-gray-800">
+          <div id="cam1-box" class="w-32 h-44 border-2 border-red-500 rounded p-1 flex flex-col justify-between">
+            <span id="cam1-tag" class="bg-red-600 text-white text-[9px] px-1 font-bold">#104 PERSON [SPRINT] [100%]</span>
+            <div class="text-center text-yellow-400 font-bold text-xl animate-bounce">↓</div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- SECTION 2: DECOUPLED SECTOR RADARS & PTZ (Hidden by default) -->
-    <div id="section-radars" class="hidden space-y-4">
-      <div class="text-xs text-gray-400">Independent tactical ground-coordinate displays (Sector A, B, C, D) with 40m range rings, azimuth radial grids, and localized fence lines.</div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="radar-bg p-3 rounded">
-          <div class="text-xs font-bold text-amber-300 mb-2">SECTOR A: North Perimeter Gate (40m)</div>
-          <div class="relative w-full h-48 flex items-center justify-center">
-            <div class="w-40 h-40 rounded-full border border-yellow-700/50 flex items-center justify-center relative">
-              <div class="w-24 h-24 rounded-full border border-yellow-700/30"></div>
-              <div class="absolute w-2 h-2 rounded-full bg-red-500 animate-ping top-8 left-16"></div>
-              <div class="absolute text-[10px] text-red-400 top-11 left-12">#104 (0.89 px/f)</div>
-            </div>
-          </div>
+      <div class="feed-card p-2.5">
+        <div class="flex justify-between items-center text-[11px] mb-1.5">
+          <span class="font-bold text-gray-200">CAM-02: Sector 4 Perimeter Wire</span>
+          <span class="text-emerald-400">● INTEGRITY: NOMINAL</span>
         </div>
-        <div class="radar-bg p-3 rounded">
-          <div class="text-xs font-bold text-amber-300 mb-2">SECTOR B: Sector 4 Perimeter Wire (40m)</div>
-          <div class="relative w-full h-48 flex items-center justify-center">
-            <div class="w-40 h-40 rounded-full border border-yellow-700/50 flex items-center justify-center relative">
-              <div class="w-24 h-24 rounded-full border border-yellow-700/30"></div>
-              <div class="absolute w-2 h-2 rounded-full bg-red-500 top-12 right-12"></div>
-              <div class="absolute text-[10px] text-red-400 top-14 right-8">#168 (TRUCK)</div>
-            </div>
+        <div class="relative bg-slate-900 rounded h-56 flex items-center justify-center overflow-hidden border border-gray-800">
+          <div class="w-36 h-36 border-2 border-red-500 rounded p-1 flex flex-col justify-between">
+            <span class="bg-red-600 text-white text-[9px] px-1 font-bold">#110 TRUCK [IN MOTION]</span>
+            <div class="text-yellow-400 text-xs">Vector: 44.0 km/h</div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- SECTION 3: EVIDENCE GALLERY & SNAPSHOTS (Hidden by default) -->
-    <div id="section-gallery" class="hidden space-y-4">
-      <div class="flex justify-between items-center text-xs">
-        <span class="text-gray-400">Full-resolution annotated JPEG evidence frames captured instantly at boundary breach.</span>
-        <div class="space-x-2">
-          <button onclick="alert('Exporting Dossier PDF with cryptographic SHA-256 hashes...')" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-1 px-3 rounded">
-            📄 Export Incident Dossier
-          </button>
+      <div class="feed-card p-2.5">
+        <div class="flex justify-between items-center text-[11px] mb-1.5">
+          <span class="font-bold text-gray-200">CAM-03: Buffer Zone Approach</span>
+          <span class="text-emerald-400">● INTEGRITY: NOMINAL</span>
+        </div>
+        <div class="relative bg-slate-900 rounded h-56 flex items-center justify-center overflow-hidden border border-gray-800">
+          <div class="w-40 h-40 border-2 border-red-500 rounded p-1 flex flex-col justify-between">
+            <span class="bg-red-600 text-white text-[9px] px-1 font-bold">#147 TRUCK [IN MOTION]</span>
+            <div class="text-yellow-400 text-xs">Vector: 353.0 km/h</div>
+          </div>
         </div>
       </div>
-      <div class="grid grid-cols-2 md:grid-cols-3 gap-3 text-xs">
-        <div class="feed-card p-2">
-          <div class="h-32 bg-slate-900 rounded border border-gray-700 flex flex-col items-center justify-center text-gray-500">
-            <span>[EVIDENCE SNAPSHOT #01]</span>
-            <span class="text-red-400 font-mono text-[10px] mt-1">breach_CAM-01_trk104.jpg</span>
-          </div>
-          <div class="flex justify-between mt-2 text-[10px]">
-            <button class="text-blue-400">Inspect</button>
-            <button class="text-emerald-400">Download</button>
-            <button class="text-red-400">Delete</button>
-          </div>
+
+      <div class="feed-card p-2.5">
+        <div class="flex justify-between items-center text-[11px] mb-1.5">
+          <span class="font-bold text-gray-200">CAM-04: Vehicle Checkpoint & ANPR</span>
+          <span class="text-emerald-400">● INTEGRITY: NOMINAL</span>
         </div>
-        <div class="feed-card p-2">
-          <div class="h-32 bg-slate-900 rounded border border-gray-700 flex flex-col items-center justify-center text-gray-500">
-            <span>[EVIDENCE SNAPSHOT #02]</span>
-            <span class="text-red-400 font-mono text-[10px] mt-1">breach_CAM-04_trk101.jpg</span>
-          </div>
-          <div class="flex justify-between mt-2 text-[10px]">
-            <button class="text-blue-400">Inspect</button>
-            <button class="text-emerald-400">Download</button>
-            <button class="text-red-400">Delete</button>
+        <div class="relative bg-slate-900 rounded h-56 flex items-center justify-center overflow-hidden border border-gray-800">
+          <div class="w-32 h-44 border-2 border-red-500 rounded p-1 flex flex-col justify-between">
+            <span class="bg-red-600 text-white text-[9px] px-1 font-bold">#101 PERSON [RUNNING]</span>
+            <div class="text-yellow-400 text-sm font-bold text-center">➔ VECTOR A-2</div>
           </div>
         </div>
       </div>
@@ -324,84 +164,30 @@
   </main>
 
   <script>
-    let isFriendly = false;
+    let friendly = false;
     function toggleIFF() {
-      isFriendly = !isFriendly;
-      const bbox = document.getElementById('cam1-bbox');
-      const tag = document.getElementById('cam1-tag');
-      const card = document.getElementById('target-104-card');
-      const defcon = document.getElementById('defcon-banner');
-
-      if (isFriendly) {
-        bbox.className = 'absolute w-32 h-44 border-2 border-cyan-400 rounded flex flex-col justify-between p-1 shadow-lg shadow-cyan-500/20';
-        tag.className = 'bg-cyan-500 text-black text-[9px] px-1 py-0.5 font-bold uppercase rounded-sm';
-        tag.innerText = '#104 FRIENDLY - BSF PATROL [WHITELISTED]';
-        card.className = 'bg-[#21262d] p-1.5 rounded border-l-2 border-cyan-400 flex justify-between';
-        card.innerHTML = '<span>#104 BSF PATROL</span><span class="text-cyan-400 font-bold">● FRIENDLY</span>';
-        defcon.className = 'bg-[#1b472e]/60 border border-[#2ea043]/50 text-[#3fb950] p-3 rounded font-semibold text-xs flex items-center justify-between';
-        defcon.innerHTML = '<span>✅ DEFCON 4: PERIMETER RESTRICTED ACCESS AUTHORIZED — White-listed Patrol Active</span>';
+      friendly = !friendly;
+      const b = document.getElementById('cam1-box');
+      const t = document.getElementById('cam1-tag');
+      const c = document.getElementById('card-104');
+      if (friendly) {
+        b.className = 'w-32 h-44 border-2 border-cyan-400 rounded p-1 flex flex-col justify-between';
+        t.className = 'bg-cyan-500 text-black text-[9px] px-1 font-bold';
+        t.innerText = '#104 FRIENDLY - BSF PATROL';
+        c.className = 'bg-[#21262d] p-1.5 rounded border-l-2 border-cyan-400 flex justify-between';
+        c.innerHTML = '<span>#104 BSF PATROL</span><span class="text-cyan-400 font-bold">● FRIENDLY</span>';
       } else {
-        bbox.className = 'absolute w-32 h-44 border-2 border-red-500 rounded flex flex-col justify-between p-1 shadow-lg shadow-red-500/20';
-        tag.className = 'bg-red-600 text-white text-[9px] px-1 py-0.5 font-bold uppercase rounded-sm';
-        tag.innerText = '#104 PERSON [SPRINT] [243.3 km/h] [100%]';
-        card.className = 'bg-[#21262d] p-1.5 rounded border-l-2 border-red-500 flex justify-between';
-        card.innerHTML = '<span>#104 PERSON [SPRINT]</span><span class="text-red-400 font-bold">● HOSTILE</span>';
-        defcon.className = 'bg-[#3b1219] border border-[#f85149]/60 text-[#ff7b72] p-3 rounded font-semibold text-xs flex items-center justify-between';
-        defcon.innerHTML = '<div class="flex items-center space-x-2"><span class="animate-pulse text-base">🚨</span><span>DEFCON 1: CRITICAL PERIMETER BREACH — 4 Hostile Target(s) Crossing Restricted Boundary</span></div><span class="text-[11px] bg-red-950 px-2 py-0.5 rounded border border-red-700">LATCHED ACTIVE</span>';
+        b.className = 'w-32 h-44 border-2 border-red-500 rounded p-1 flex flex-col justify-between';
+        t.className = 'bg-red-600 text-white text-[9px] px-1 font-bold';
+        t.innerText = '#104 PERSON [SPRINT] [100%]';
+        c.className = 'bg-[#21262d] p-1.5 rounded border-l-2 border-red-500 flex justify-between';
+        c.innerHTML = '<span>#104 PERSON [SPRINT]</span><span class="text-red-400 font-bold">● HOSTILE</span>';
       }
     }
-
-    function toggleAlarm() {
-      const banner = document.getElementById('defcon-banner');
-      banner.style.display = 'none';
-      alert('Alarms Acknowledged & Cleared by Operator.');
-    }
-
-    function toggleBandwidth() {
-      const chk = document.getElementById('bandwidth-toggle').checked;
-      const status = document.getElementById('bandwidth-status');
-      if (chk) {
-        status.className = 'bg-yellow-950/60 border border-yellow-600/50 text-yellow-300 p-2 rounded text-[11px]';
-        status.innerText = '⚡ Mode: MESH RESILIENT 20 kbps JSON Telemetry (Video Streaming Throttled to Conserve Field Radio)';
-      } else {
-        status.className = 'bg-[#1b472e]/60 border border-[#2ea043]/50 text-[#3fb950] p-2 rounded text-[11px]';
-        status.innerText = '📶 Mode: BROADBAND TACTICAL C2 Full Resolution 30 FPS Streams Active';
-      }
-    }
-
-    function toggleClahe() {
-      const chk = document.getElementById('clahe-toggle').checked;
-      const cam = document.getElementById('cam1-box');
-      if (chk) {
-        cam.style.filter = 'contrast(1.6) brightness(1.2) hue-rotate(90deg)';
-      } else {
-        cam.style.filter = 'none';
-      }
-    }
-
-    function triggerAcoustic(type) {
-      alert(`[ACOUSTIC SENSOR] ${type} Signature Detected at Azimuth 042°! Cross-referencing CAM-01 PTZ vector.`);
-    }
-
-    function switchTab(tab) {
-      document.getElementById('section-feeds').classList.add('hidden');
-      document.getElementById('section-radars').classList.add('hidden');
-      document.getElementById('section-gallery').classList.add('hidden');
-
-      document.getElementById('tab-feeds').className = 'text-gray-400 hover:text-white px-3 py-1 rounded';
-      document.getElementById('tab-radars').className = 'text-gray-400 hover:text-white px-3 py-1 rounded';
-      document.getElementById('tab-gallery').className = 'text-gray-400 hover:text-white px-3 py-1 rounded';
-
-      if (tab === 'feeds') {
-        document.getElementById('section-feeds').classList.remove('hidden');
-        document.getElementById('tab-feeds').className = 'bg-[#21262d] text-white px-3 py-1 rounded font-semibold';
-      } else if (tab === 'radars') {
-        document.getElementById('section-radars').classList.remove('hidden');
-        document.getElementById('tab-radars').className = 'bg-[#21262d] text-white px-3 py-1 rounded font-semibold';
-      } else if (tab === 'gallery') {
-        document.getElementById('section-gallery').classList.remove('hidden');
-        document.getElementById('tab-gallery').className = 'bg-[#21262d] text-white px-3 py-1 rounded font-semibold';
-      }
+    function toggleBw() {
+      const on = document.getElementById('bw-mode').checked;
+      const lbl = document.getElementById('bw-lbl');
+      lbl.innerText = on ? 'Mode: MESH RESILIENT 20 kbps JSON Telemetry Active' : 'Mode: BROADBAND TACTICAL C2 Full Resolution 30 FPS Streams Active';
     }
   </script>
 </body>
