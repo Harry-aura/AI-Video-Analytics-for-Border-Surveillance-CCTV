@@ -2,14 +2,14 @@
   <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=1,13,25,33&height=240&section=header&text=%F0%9F%9B%A1%EF%B8%8F%20SENTINEL-AI%3A%20Border%20Perimeter%20Defense&fontSize=32&fontColor=ffffff&animation=fadeIn&fontAlignY=36&desc=Autonomous%20Multi-Spectral%20Surveillance%20%7C%20Deep%20SORT%20%7C%20Tactical%20Edge%20Intelligence&descFontSize=15&descAlignY=58" width="100%" />
   <br/>
   <p align="center">
+    <a href="https://harry-aura.github.io/AI-Video-Analytics-for-Border-Surveillance-CCTV/"><img src="https://img.shields.io/badge/%F0%9F%9A%80%20LIVE%20TACTICAL%20HUD-LAUNCH%20WEB%20PORTAL-00C853?style=for-the-badge&labelColor=0d1117" alt="Live Demo" /></a>
     <a href="https://github.com/Harry-aura/AI-Video-Analytics-for-Border-Surveillance-CCTV/blob/main/docs/ARCHITECTURE.md"><img src="https://img.shields.io/badge/%F0%9F%9B%A1%EF%B8%8F%20SYSTEM%20SPEC-DEFENSE%20GRADE-2563EB?style=for-the-badge&labelColor=0d1117" alt="Architecture" /></a>
-    <a href="https://github.com/Harry-aura/AI-Video-Analytics-for-Border-Surveillance-CCTV/blob/main/docs/DATA_FLOW.md"><img src="https://img.shields.io/badge/%F0%9F%94%84%20DATA%20PIPELINE-EDGE%20RTSP-10B981?style=for-the-badge&labelColor=0d1117" alt="Data Flow" /></a>
-    <a href="https://github.com/Harry-aura/AI-Video-Analytics-for-Border-Surveillance-CCTV/blob/main/docs/INTERVIEW_GUIDE.md"><img src="https://img.shields.io/badge/%F0%9F%8F%86%20SIH%20DEFENSE-EVALUATION%20DEEP%20DIVE-9333EA?style=for-the-badge&labelColor=0d1117" alt="SIH Guide" /></a>
+    <a href="https://github.com/Harry-aura/AI-Video-Analytics-for-Border-Surveillance-CCTV/blob/main/docs/INTERVIEW_GUIDE.md"><img src="https://img.shields.io/badge/%F0%9F%8F%86%20SIH%20DEFENSE-EVALUATION%20GUIDE-9333EA?style=for-the-badge&labelColor=0d1117" alt="SIH Guide" /></a>
   </p>
   <p align="center">
     <a href="#-sih-problem-statement--operational-alignment"><img src="https://img.shields.io/badge/SIH-National%20Hackathon%20Grade-FF6F00?style=flat-square&logo=target&logoColor=white" alt="SIH Ready" /></a>
     <a href="#-edge-hardware-target-matrix"><img src="https://img.shields.io/badge/Edge%20Hardware-NVIDIA%20Jetson%20Orin-76B900?style=flat-square&logo=nvidia&logoColor=white" alt="NVIDIA Jetson" /></a>
-    <a href="#-tactical-command-stream-hud"><img src="https://img.shields.io/badge/Protocols-RTSP%20%7C%20MQTT%20%7C%20WebSockets-0288D1?style=flat-square" alt="Protocols" /></a>
+    <a href="https://github.com/Harry-aura/AI-Video-Analytics-for-Border-Surveillance-CCTV/blob/main/main.py"><img src="https://img.shields.io/badge/Engine-Multi--Threaded%20Python%20Core-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python Core" /></a>
     <a href="https://github.com/Harry-aura/AI-Video-Analytics-for-Border-Surveillance-CCTV/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-F59E0B?style=flat-square" alt="License" /></a>
   </p>
 </div>
@@ -20,26 +20,18 @@
 
 > **Target Domain**: Defense & Border Management (Ministry of Home Affairs / Border Guarding Forces)
 > **Core Challenge**: High false-alarm rates in remote border sectors due to adverse weather, wildlife, optical occlusion, and severe bandwidth constraints preventing full HD video backhauling to central command.
-> **SENTINEL Solution**: Edge-native AI computing pipeline performing on-device real-time multi-spectral classification, persistent object tracking via Kalman-filtering, polygon geofence penetration detection, and ultra-low-bandwidth telemetry dispatch (< 2 KB alert packets via satellite/mesh radio).
+> **SENTINEL Solution**: Edge-native AI computing pipeline performing on-device real-time multi-spectral classification, persistent object tracking via Kalman-filtering, polygon geofence penetration detection via ray-casting algorithms, and ultra-low-bandwidth telemetry dispatch (< 200 bytes alert packets via satellite/mesh radio).
 
 ---
 
-## 🖥️ Tactical Command Stream HUD (Simulated Terminal Telemetry)
+## 🖥️ Interactive Tactical Web HUD (Live Demo Available)
 
-~~~text
-========================================================================================
- [SENTINEL-AI] EDGE SURVEILLANCE NODE #04 (LOC SECTOR 7B - NORTH PERIMETER)
- UPTIME: 142h 18m | THERMAL SENSOR: 42.1 C | BANDWIDTH: 1.4 Kbps (TELEMETRY-ONLY MODE)
-========================================================================================
- [STREAM 01: THERMAL IR]   FPS: 31.4 | INFERENCE: 26.2ms | OBJECTS: 2
- [TRK_ID: 104] CLASS: Person   CONF: 0.94  VEL: 1.4 m/s (Bearing: 042 deg) [GEOFENCE BREACH]
- [TRK_ID: 105] CLASS: Animal   CONF: 0.88  VEL: 0.3 m/s (Bearing: 180 deg) [SUPPRESSED - WILDLIFE]
-----------------------------------------------------------------------------------------
- >>> ACTION: INTRUSION DETECTED AT COORD (28.6139 N, 77.2090 E) POL-BOUND #2
- >>> DISPATCH: MQTT Alert Packet SENT to Tactical Base (Latency: 8.4ms)
- >>> PERIPHERAL: Relay Pin 12 ACTIVATED (Infrared Floodlight Strobe Triggered)
-========================================================================================
-~~~
+Experience the live simulation interface deployed via GitHub Pages:  
+👉 **[Launch Live Sentinel Command HUD](https://harry-aura.github.io/AI-Video-Analytics-for-Border-Surveillance-CCTV/)**
+
+- Real-time Canvas simulation of multi-spectral camera tracking.
+- Simulated optical stream with active dynamic geofence tripwire.
+- Instant MQTT event log dispatch and manual deterrent triggers (IR Strobe / Siren Relays).
 
 ---
 
@@ -64,7 +56,7 @@ flowchart TB
     subgraph Spatial_Tracking [Spatial Tracking & Verification]
         ReID --> Kalman[8-State Kalman Velocity Filter]
         Kalman --> Hungarian[Hungarian Data Association Matrix]
-        Hungarian --> GeofenceEngine{Polygon Geofence Cross?}
+        Hungarian --> GeofenceEngine{Ray-Casting Polygon Breach?}
         GeofenceEngine -->|Wildlife / Noise| Suppress[False-Positive Filter (<0.4%)]
         GeofenceEngine -->|Hostile Breach| ThreatScore[Threat Scoring & Vector Calc]
     end
@@ -108,43 +100,21 @@ $$\\mathbf{x} = [u, v, \\gamma, h, \\dot{u}, \\dot{v}, \\dot{\\gamma}, \\dot{h}]
 - $h$: Bounding box height
 - $(\\dot{u}, \\dot{v}, \\dot{\\gamma}, \\dot{h})$: Instantaneous kinematic velocities in image coordinate space
 
-### 2. Dual-Distance Association Cost
-To associate bounding box detections with established tracks across occlusion, the matching distance $c_{i,j}$ fuses spatial Mahalanobis distance with deep cosine visual appearance vectors:
-$$c_{i,j} = \\lambda d^{(1)}(i, j) + (1 - \\lambda) d^{(2)}(i, j)$$
-- $d^{(1)}$: Mahalanobis motion consistency distance
-- $d^{(2)}$: Cosine distance between 128-dimensional Re-ID feature embeddings
-- $\\lambda = 0.6$: Optimized hyperparameter suppressing motion noise during evasive running patterns.
+### 2. Ray-Casting Polygon Geofencing
+Given an arbitrary polygonal boundary $P$ defined by vertices $V_1, V_2, \\dots, V_n$ and target centroid $(x, y)$, penetration determination uses non-zero winding intersection checks:
+$$I = \\sum_{i=1}^{n} \\text{intersect}\\big((x, y), V_i, V_{i+1}\\big) \\pmod 2 \\neq 0$$
 
 ---
 
-## 🛠️ Technology Stack & Source Architecture
+## 🚀 Fast Local Execution Guide
 
-| Domain | Technology | File Target | Responsibility |
-| :--- | :--- | :--- | :--- |
-| **Neural Perception** | YOLOv8 + PyTorch | `main.py` | Real-time human, vehicle, and animal detection |
-| **Multi-Target Tracking** | DeepSORT / Kalman Filter | `docs/ARCHITECTURE.md` | Persistent tracklet state maintenance & occlusion recovery |
-| **Video Processing** | OpenCV 4.x + GStreamer | `main.py` | Hardware-accelerated RTSP demuxing & CLAHE filtering |
-| **Edge Alert Bus** | MQTT / WebSockets | `docs/DATA_FLOW.md` | Ultra-compact JSON telemetry broadcast to tactical base |
-
----
-
-## 🚀 Fast Deployment Guide (Edge Simulator)
-
-### 1. Clone & Set Up Environment
-~~~bash
-git clone https://github.com/Harry-aura/AI-Video-Analytics-for-Border-Surveillance-CCTV.git
+```bash
+git clone [https://github.com/Harry-aura/AI-Video-Analytics-for-Border-Surveillance-CCTV.git](https://github.com/Harry-aura/AI-Video-Analytics-for-Border-Surveillance-CCTV.git)
 cd AI-Video-Analytics-for-Border-Surveillance-CCTV
 
-python -m venv venv
-source venv/bin/activate  # On Windows: .\\venv\\Scripts\\Activate.ps1
-pip install -r requirements.txt
-~~~
-
-### 2. Launch Simulated Tactical Edge Node
-~~~bash
-# Run surveillance simulation with synthetic camera feed
-python main.py --source 0 --show-hud --geofence-alert
-~~~
+# Run the Python surveillance engine with geofence arbitration:
+python main.py
+```
 
 ---
 
