@@ -140,40 +140,6 @@ Auto-captured, annotated full-resolution breach frames with inspect, download, d
 
 
 ---
-## Screenshots
-
-### Command Center Overview
-Top-level C2 dashboard with DEFCON status banner, active stream count, tracked targets, Re-ID gallery size and mesh telemetry mode.
-
-![Command Center Overview](docs/screenshots/01-command-center-overview.jpg)
-
-### Live Multi-Camera Tracking and Threat Matrix
-Four decoupled camera feeds with YOLOv8 + DeepSORT bounding boxes, trajectory vectors and a live per-target threat matrix.
-
-![Live Multi-Camera Tracking and Threat Matrix](docs/screenshots/02-live-multicamera-tracking.jpg)
-
-### Perimeter Breach Detection
-Real-time DEFCON 1 alert raised when a tracked target crosses the restricted boundary, with posture and speed classification.
-
-![Perimeter Breach Detection](docs/screenshots/03-perimeter-breach-detection.jpg)
-
-### IFF Friendly Patrol Whitelisting
-An enrolled friendly patrol is re-tagged in cyan and removed from hostile alerts, reducing false alarms.
-
-![IFF Friendly Patrol Whitelisting](docs/screenshots/04-iff-friendly-whitelisting.jpg)
-
-### Decoupled Sector Radars
-Top-down ground-coordinate radar view per sector with 40 m range rings, azimuth grid and a live target matrix.
-
-![Decoupled Sector Radars](docs/screenshots/05-sector-radars.jpg)
-
-### Breach Evidence Snapshot Gallery
-Auto-captured, annotated full-resolution breach frames with inspect, download, delete and incident dossier export.
-
-![Breach Evidence Snapshot Gallery](docs/screenshots/06-evidence-gallery.jpg)
-
-
----
 ## 📚 Technical Documentation Hub
 
 - [📘 IBVAP V2 Defense Architecture Specification](https://github.com/Harry-aura/AI-Video-Analytics-for-Border-Surveillance-CCTV/blob/main/docs/ARCHITECTURE.md)
